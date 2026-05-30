@@ -7,4 +7,5 @@ public enum StoneColor
 {
     Black,
     White,
+    None,
 }

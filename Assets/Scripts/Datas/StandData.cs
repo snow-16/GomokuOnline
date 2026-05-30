@@ -1,5 +1,6 @@
 using System.Collections.Generic;
 using System.Linq;
+using Unity.Netcode;
 using UnityEngine;
 
 public class StandData
@@ -14,11 +15,15 @@ public class StandData
         return _cells[(int)pos.y * _size + (int)pos.x];
     }
 
-    public static void SetCell(Vector2 pos, StoneColor color)
+    [ClientRpc]
+    public static void SetCellClientRpc(Vector2 pos, StoneColor color)
     {
-        int index = (int)pos.y * _size + (int)pos.x;;
+        int index = (int)pos.y * _size + (int)pos.x;
         _cells[index] = new SquareData(color, pos);
         _cellsCanPut[index] = false;
+
+        ServerData.Players[0].CreateStone(pos);
+        ServerData.Players[1].CreateStone(pos);
     }
 
     public static void ResetCells()
