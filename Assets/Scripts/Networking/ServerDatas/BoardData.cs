@@ -7,7 +7,7 @@ using UnityEngine;
 
 public class BoardData : NetworkBehaviour
 {
-    public static int _size = 14;
+    public static int _size = 13;
     /// <summary> 盤面の状態。N=空、X=黒、O=白 </summary>
     private NetworkVariable<string> _cells = new NetworkVariable<string>(string.Concat(Enumerable.Repeat("N:", _size * _size))[..^2]);
 

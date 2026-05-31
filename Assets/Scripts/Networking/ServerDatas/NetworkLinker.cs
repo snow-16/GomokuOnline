@@ -4,7 +4,7 @@ using UnityEngine;
 [DefaultExecutionOrder(-100)]
 public class NetworkLinker : MonoBehaviour
 {
-    void Start()
+    void Awake()
     {
         if (DataManager.RoomData == null)
         {

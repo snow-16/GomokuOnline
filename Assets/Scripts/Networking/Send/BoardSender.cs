@@ -4,7 +4,7 @@ using UnityEngine;
 
 public class BoardSender
 {
-    public List<StoneColor> GetCells()
+    public static List<StoneColor> GetCells()
     {
         return DataManager.BoardData.Cells.Split(':').Select(c => c switch
         {
@@ -14,14 +14,14 @@ public class BoardSender
         }).ToList();
     }
 
-    public void SetCell(Vector2 pos, StoneColor color)
+    public static void SetCell(Vector2 pos, StoneColor color)
     {
         var cells = GetCells();
         cells[(int)(pos.y * BoardData._size + pos.x)] = color;
         DataManager.BoardData.UpdateCellsServerRpc(BoardData.CellListToString(cells));
     }
 
-    public void ResetBoard()
+    public static void ResetBoard()
     {
         DataManager.BoardData.UpdateCellsServerRpc(BoardData.CellListToString(Enumerable.Repeat(StoneColor.None, BoardData._size * BoardData._size).ToList()));
     }
