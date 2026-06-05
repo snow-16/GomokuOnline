@@ -1,41 +1,27 @@
 using System;
-using Unity.Netcode;
-using UnityEngine;
+using Fusion;
 
 public class PlayerData : NetworkBehaviour
 {
-    private NetworkVariable<int> _playerNo = new NetworkVariable<int>();
-    private NetworkVariable<int> _turn = new NetworkVariable<int>();
+    [Networked]
+    public int PlayerNo { get; private set; }
+    [Networked]
+    public int Turn { get; private set; }
 
-    public int PlayerNo { get { return _playerNo.Value; } }
-    public int Turn { get { return _turn.Value; } }
-
-    void Start()
+    [Rpc(RpcSources.All, RpcTargets.StateAuthority)]
+    public void RPC_SetTurnServerRpc(int turn)
     {
-        DataManager.PlayerData = this;
-    }
-
-    [ServerRpc]
-    public void SetTurnServerRpc(int turn)
-    {
-        _turn.Value = turn;
-    }
-
-    [ClientRpc]
-    public void PullTurnClientRpc()
-    {
-        PlayerReceiver.PullDatas();
+        Turn = turn;
     }
 
     public void UpdateTurn()
     {
-        SetTurnServerRpc(((Turn - 1) % 2) + 1);
-        PullTurnClientRpc();
+        RPC_SetTurnServerRpc(((Turn - 1) % 2) + 1);
     }
 
-    [ServerRpc]
+    [Rpc(RpcSources.All, RpcTargets.StateAuthority)]
     public void SetNoServerRpc(int no)
     {
-        _playerNo.Value = no;
+        PlayerNo = no;
     }
 }

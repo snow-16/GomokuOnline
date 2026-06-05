@@ -1,9 +1,11 @@
+using Fusion;
 using UnityEngine;
 using UnityEngine.InputSystem;
-using UnityEngine.SceneManagement;
 
 public class Test : MonoBehaviour
 {
+    [SerializeField]
+    private NetworkRunner _networkRunnerPrefab;
     [SerializeField]
     private TMPro.TMP_InputField _inputField;
     [SerializeField]
@@ -13,23 +15,13 @@ public class Test : MonoBehaviour
     {
         if(Keyboard.current.digit1Key.wasPressedThisFrame)
         {
-            CreateServer();
+            JoinServer(_codeView.text);
             // GameManager.TransitionScene(SceneType.InGame);
         }
-        if(Keyboard.current.digit2Key.wasPressedThisFrame)
-        {
-            JoinServer(_inputField.text);
-            // GameManager.TransitionScene(SceneType.InGame);
-        }
-    }
-
-    private async void CreateServer()
-    {
-        _codeView.text = await RelayManager.CreateRelay();
     }
 
     private async void JoinServer(string code)
     {
-        await RelayManager.JoinRelay(code);
+        _codeView.text = (await RelayManager.JoinMatch(_networkRunnerPrefab, code)).ToString();
     }
 }

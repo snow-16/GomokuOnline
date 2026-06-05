@@ -9,6 +9,6 @@ public class PlayerSender
 
     public static void SetTurn(int turn)
     {
-        DataManager.PlayerData.SetTurnServerRpc(turn);
+        DataManager.PlayerData.RPC_SetTurnServerRpc(turn);
     }
 }

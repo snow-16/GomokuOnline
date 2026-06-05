@@ -6,7 +6,7 @@ public class BoardSender
 {
     public static List<StoneColor> GetCells()
     {
-        return DataManager.BoardData.Cells.Split(':').Select(c => c switch
+        return DataManager.BoardData.Cells.Value.Split(':').Select(c => c switch
         {
             "X" => StoneColor.Black,
             "O" => StoneColor.White,
@@ -18,11 +18,11 @@ public class BoardSender
     {
         var cells = GetCells();
         cells[(int)(pos.y * BoardData._size + pos.x)] = color;
-        DataManager.BoardData.UpdateCellsServerRpc(BoardData.CellListToString(cells));
+        DataManager.BoardData.RPC_UpdateCellsServer(BoardData.CellListToString(cells));
     }
 
     public static void ResetBoard()
     {
-        DataManager.BoardData.UpdateCellsServerRpc(BoardData.CellListToString(Enumerable.Repeat(StoneColor.None, BoardData._size * BoardData._size).ToList()));
+        DataManager.BoardData.RPC_UpdateCellsServer(BoardData.CellListToString(Enumerable.Repeat(StoneColor.None, BoardData._size * BoardData._size).ToList()));
     }
 }
