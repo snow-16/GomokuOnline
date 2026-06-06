@@ -1,21 +1,34 @@
 using System.Threading.Tasks;
 using Fusion;
 using UnityEngine;
+using UnityEngine.SceneManagement;
 
 public class RelayManager : MonoBehaviour
 {
-    public static async Task<bool> JoinMatch(NetworkRunner runnerPrefab, string code)
+    public static NetworkRunner NetworkRunner { get; private set;}
+
+    public static async Task<int> JoinMatch(string code)
     {
-        var networkRunner = Instantiate(runnerPrefab);
-        
-        // 共有モードのセッションに参加する．同じパスワードを入力した人同士でしかマッチングしない．
-        var result = await networkRunner.StartGame(new StartGameArgs {
+        await NetworkRunner.StartGame(new StartGameArgs {
             GameMode = GameMode.Shared,
             SessionName = code,
-            PlayerCount = 4,
-            IsVisible = false
+            PlayerCount = 2,
+            CustomLobbyName = NetworkRunner.LobbyInfo.Name,
+            IsVisible = true,
+            IsOpen = true
         });
         
-        return result.Ok;
+        return NetworkRunner.SessionInfo.PlayerCount;
+    }
+
+    public static async void JoinLobby()
+    {
+        await NetworkRunner.JoinSessionLobby(SessionLobby.Custom, "Lobby");
+        SceneManager.LoadScene("Lobby");
+    }
+
+    public static void CreateRunner(NetworkRunner runnerPrefab)
+    {
+        NetworkRunner = Instantiate(runnerPrefab);
     }
 }

@@ -1,3 +1,4 @@
+using System.Threading.Tasks;
 using Fusion;
 using UnityEngine;
 using UnityEngine.InputSystem;
@@ -11,17 +12,20 @@ public class Test : MonoBehaviour
     [SerializeField]
     private TMPro.TextMeshProUGUI _codeView;
 
-    void Update()
+    async void Update()
     {
         if(Keyboard.current.digit1Key.wasPressedThisFrame)
         {
-            JoinServer(_codeView.text);
+            await JoinServer(_inputField.text);
             // GameManager.TransitionScene(SceneType.InGame);
+        }
+        else if(Keyboard.current.digit2Key.wasPressedThisFrame)
+        {
         }
     }
 
-    private async void JoinServer(string code)
+    private async Task JoinServer(string code)
     {
-        _codeView.text = (await RelayManager.JoinMatch(_networkRunnerPrefab, code)).ToString();
+        _codeView.text = (await RelayManager.JoinMatch(code)).ToString();
     }
 }
