@@ -3,11 +3,14 @@ using System.Collections.Generic;
 using Fusion;
 using Fusion.Sockets;
 using UnityEngine;
+using UnityEngine.SceneManagement;
 
 public class RoomData : MonoBehaviour, INetworkRunnerCallbacks
 {
     public static List<SessionInfo> _sessionList;
+    public static List<string> _sessionPassList = new();
     public static int _playerCount;
+    public static float _stayingLobbyTime = 0;
 
     void Awake()
     {
@@ -16,17 +19,21 @@ public class RoomData : MonoBehaviour, INetworkRunnerCallbacks
 
     public void OnSessionListUpdated(NetworkRunner runner, List<SessionInfo> sessionList)
     {
+        
         _sessionList = sessionList;
+        _sessionPassList.Clear();
 
         _playerCount = 0;
         foreach(var session in _sessionList)
         {
+            _sessionPassList.Add(session.Name);
             _playerCount += session.PlayerCount;
         }
-
-        if(_playerCount > 18)
+        
+        if(_playerCount >= 16)
         {
             runner.Shutdown();
+            SceneManager.LoadScene("Title");
         }
     }
 

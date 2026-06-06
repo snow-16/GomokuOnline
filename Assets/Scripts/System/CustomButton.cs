@@ -1,12 +1,9 @@
 using UnityEngine;
-using UnityEngine.Events;
 using UnityEngine.EventSystems;
 using UnityEngine.UI;
 
 public class CustomButton : MonoBehaviour, IPointerClickHandler, IPointerEnterHandler, IPointerExitHandler
 {
-    [SerializeField]
-    private UnityEvent _plessingAction;
     private Image _buttonImage;
 
     void Awake()
@@ -16,8 +13,7 @@ public class CustomButton : MonoBehaviour, IPointerClickHandler, IPointerEnterHa
 
     public void OnPointerClick(PointerEventData eventData)
     {
-        _plessingAction?.Invoke();
-        gameObject.SetActive(false);
+        PressingAction();
     }
 
     public void OnPointerEnter(PointerEventData eventData)
@@ -28,5 +24,10 @@ public class CustomButton : MonoBehaviour, IPointerClickHandler, IPointerEnterHa
     public void OnPointerExit(PointerEventData eventData)
     {
         _buttonImage.color = Color.white;
+    }
+
+    protected virtual void PressingAction()
+    {
+        
     }
 }
