@@ -1,5 +1,5 @@
 public class DataManager
 {
-    public static PlayerData PlayerData { get; set; }
-    public static BoardData BoardData { get; set; }
+    public static PlayerDataManager PlayerData { get; set; }
+    public static RoomDataManager RoomData { get; set; }
 }

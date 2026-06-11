@@ -12,10 +12,10 @@ public class NetworkLinker : MonoBehaviour
     
     void Awake()
     {
-        if (FindAnyObjectByType<NetworkLinker>())
+        if (FindObjectsByType<NetworkLinker>(FindObjectsSortMode.None).Length == 1)
         {
-            DataManager.BoardData = gameObject.AddComponent<BoardData>();
-            DataManager.PlayerData = gameObject.AddComponent<PlayerData>();
+            RoomData.SetInstance();
+            PlayerData.SetInstance();
 
             DontDestroyOnLoad(gameObject);
         }

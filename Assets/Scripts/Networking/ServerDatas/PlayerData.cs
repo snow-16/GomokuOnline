@@ -1,27 +1,36 @@
-using System;
-using Fusion;
+using UnityEngine;
 
-public class PlayerData : NetworkBehaviour
+public class PlayerData
 {
-    [Networked]
-    public int PlayerNo { get; private set; }
-    [Networked]
-    public int Turn { get; private set; }
+    public static PlayerData Own { get; private set; }
+    public static PlayerData Opponets { get; private set; }
 
-    [Rpc(RpcSources.All, RpcTargets.StateAuthority)]
-    public void RPC_SetTurnServerRpc(int turn)
+    public static void SetInstance()
     {
-        Turn = turn;
+        Own = new PlayerData();
+        Opponets = new PlayerData();
     }
 
-    public void UpdateTurn()
+
+
+    public string PlayerName { get; private set; }
+
+    public int PlayerNumber { get; private set; }
+
+    public StoneColor PlayerColor { get; private set; }
+
+    public bool IsExist { get; private set; }
+
+    public void UpdateData(string name, int num, StoneColor color, bool exist)
     {
-        RPC_SetTurnServerRpc(((Turn - 1) % 2) + 1);
+        PlayerName = name;
+        PlayerNumber = num;
+        PlayerColor = color;
+        IsExist = exist;
     }
 
-    [Rpc(RpcSources.All, RpcTargets.StateAuthority)]
-    public void SetNoServerRpc(int no)
+    public void UpdateData(PlayerDataManager.AnPlayerData playerData)
     {
-        PlayerNo = no;
+        UpdateData(playerData.PlayerName.Value, playerData.PlayerNumber, playerData.PlayerColor, playerData.IsExist);
     }
 }
