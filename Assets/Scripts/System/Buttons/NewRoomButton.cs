@@ -20,7 +20,7 @@ public class NewwRoomButton : CustomButton
             {
                 Debug.Log("コードはアルファベット大文字で統一してください。");
             }
-            else if(!RoomData._sessionPassList.Contains(_codeInputField.text))
+            else if(!LobbyData._sessionPassList.Contains(_codeInputField.text))
             {
                 RelayManager.CreateRoom(_codeInputField.text);
                 gameObject.SetActive(false);

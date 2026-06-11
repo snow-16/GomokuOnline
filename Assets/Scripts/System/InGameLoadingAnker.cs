@@ -4,6 +4,6 @@ public class InGameLoadingAnker : LoadingAnker
 {
     protected override void WhenLoaded()
     {
-        PlayerReceiver.PullDatas();
+        
     }
 }

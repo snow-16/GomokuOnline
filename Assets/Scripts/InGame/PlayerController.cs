@@ -40,8 +40,7 @@ public class PlayerController : MonoBehaviour
 
     public void DecisionPutStone(Vector2 pos)
     {
-        BoardSender.SetCell(pos, (StoneColor)(PlayerNo - 1));
-        PlayerSender.UpdateTurn();
+        // BoardSender.SetCell(pos, (StoneColor)(PlayerNo - 1));
     }
 
     public void SetTurn(int turn)

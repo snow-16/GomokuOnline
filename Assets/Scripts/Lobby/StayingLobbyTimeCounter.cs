@@ -12,6 +12,6 @@ public class StayingLobbyTimeCounter : MonoBehaviour
 
     void Update()
     {
-        _countingText.text = $"滞在可能時間: {RoomData._stayingLobbyTime:0.0}";
+        _countingText.text = $"滞在可能時間: {LobbyData._stayingLobbyTime:0.0}";
     }
 }

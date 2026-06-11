@@ -8,7 +8,7 @@ public class JoinRoomButton : CustomButton
 
     protected override void PressingAction()
     {
-        if(RoomData._sessionPassList.Contains(_codeInputField.text))
+        if(LobbyData._sessionPassList.Contains(_codeInputField.text))
         {
             RelayManager.JoinRoom(_codeInputField.text);
             gameObject.SetActive(false);

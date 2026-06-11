@@ -7,7 +7,7 @@ public class GomokuStandUtil
     public static Vector2? PositionToCell(Vector2 pos)
     {
         float? x = null;
-        for(int i = 0; i < BoardData._size; i++)
+        for(int i = 0; i < 14; i++)
         {
             float gridPosX = (i - 6) * _gridSize;
             if(Mathf.Abs(gridPosX - pos.x) < _gridSize / 2)
@@ -18,7 +18,7 @@ public class GomokuStandUtil
         }
 
         float? y = null;
-        for(int i = 0; i < BoardData._size; i++)
+        for(int i = 0; i < 14; i++)
         {
             float gridPosY = (i - 6) * _gridSize;
             if(Mathf.Abs(gridPosY - pos.y) < _gridSize / 2)
