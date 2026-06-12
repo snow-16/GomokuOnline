@@ -15,7 +15,7 @@ public class MembersViewer : MonoBehaviour
     {
         if(_memberCount != LobbyData._playerCount)
         {
-            _membersViewText.text = $"残り接続可能人数: {_memberCount = 18 - LobbyData._playerCount}人";
+            _membersViewText.text = $"残り接続可能人数: {_memberCount = 16 - LobbyData._playerCount}人";
         }
     }
 }
