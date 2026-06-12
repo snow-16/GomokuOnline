@@ -32,14 +32,14 @@ public class PlayerSettingUI: MonoBehaviour
         {
             _waitingText = transform.GetChild(2).gameObject;
 
-            if(_playerData.Own.PlayerNumber == 2)
+            if(RoomData.Instance.PlayerNumber == 2)
             {
                 _waitingText.SetActive(false);
                 _playerSettingsObj.SetActive(true);
             }
         }
 
-        if(_showPlayerNumber != _playerData.Own.PlayerNumber)
+        if(_showPlayerNumber != RoomData.Instance.PlayerNumber)
         {
             _playerNameField.interactable = false;
         }
@@ -47,7 +47,7 @@ public class PlayerSettingUI: MonoBehaviour
 
     void Update()
     {
-        if(_playerData == null)
+        if(!RelayManager.NetworkRunner.IsRunning || _playerData == null)
         {
             return;
         }
@@ -57,10 +57,9 @@ public class PlayerSettingUI: MonoBehaviour
 
         if(_playerNameField.text != playerSetting.PlayerName)
         {
-            if(_showPlayerNumber == _playerData.Own.PlayerNumber)
+            if(_showPlayerNumber == RoomData.Instance.PlayerNumber)
             {
                 _playerData.ChangeName(_showPlayerNumber, _playerNameField.text);
-                Debug.Log(_playerData.GetDataByNumber(_showPlayerNumber).PlayerName);
             }
             else
             {
@@ -90,7 +89,7 @@ public class PlayerSettingUI: MonoBehaviour
 
         if(opponentsPlayerSetting.IsExist && RelayManager.NetworkRunner.SessionInfo.PlayerCount == 1)
         {
-            if(_playerData.Own.PlayerNumber == 2)
+            if(RoomData.Instance.PlayerNumber == 2)
             {
                 _playerData.TransferOwnToOne();
             }

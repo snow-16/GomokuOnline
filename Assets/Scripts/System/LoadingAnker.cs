@@ -6,7 +6,6 @@ public class LoadingAnker : MonoBehaviour
     {
         GameManager.EndLoading();
         WhenLoaded();
-        Destroy(gameObject);
     }
 
     protected virtual void WhenLoaded()

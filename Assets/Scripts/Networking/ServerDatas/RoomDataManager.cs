@@ -11,9 +11,21 @@ public class RoomDataManager: NetworkBehaviour
 
     public override void Spawned()
     {
-        DataManager.RoomData = this;
+        RPC_SetCode(RoomData.Instance.RoomCode);
+        RPC_SetTurn(RoomData.Instance.Turn);
 
-        RoomCode = RoomData.Instance.RoomCode;
-        Turn = RoomData.Instance.Turn;
+        DataManager.RoomData = this;
+    }
+
+    [Rpc(RpcSources.All, RpcTargets.StateAuthority)]
+    public void RPC_SetCode(string data)
+    {
+        RoomCode = data;
+    }
+
+    [Rpc(RpcSources.All, RpcTargets.StateAuthority)]
+    public void RPC_SetTurn(int data)
+    {
+        Turn = data;
     }
 }

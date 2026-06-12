@@ -2,35 +2,31 @@ using UnityEngine;
 
 public class PlayerData
 {
-    public static PlayerData Own { get; private set; }
-    public static PlayerData Opponets { get; private set; }
+    public static PlayerData[] Players { get; private set; } = new PlayerData[2];
 
     public static void SetInstance()
     {
-        Own = new PlayerData();
-        Opponets = new PlayerData();
+        Players[0] = new PlayerData();
+        Players[1] = new PlayerData();
     }
 
 
 
     public string PlayerName { get; private set; }
 
-    public int PlayerNumber { get; private set; }
-
     public StoneColor PlayerColor { get; private set; }
 
     public bool IsExist { get; private set; }
 
-    public void UpdateData(string name, int num, StoneColor color, bool exist)
+    public void UpdateData(string name, StoneColor color, bool exist)
     {
         PlayerName = name;
-        PlayerNumber = num;
         PlayerColor = color;
         IsExist = exist;
     }
 
     public void UpdateData(PlayerDataManager.AnPlayerData playerData)
     {
-        UpdateData(playerData.PlayerName.Value, playerData.PlayerNumber, playerData.PlayerColor, playerData.IsExist);
+        UpdateData(playerData.PlayerName.Value, playerData.PlayerColor, playerData.IsExist);
     }
 }

@@ -1,27 +1,27 @@
 using System;
 using Fusion;
+using UnityEngine;
 
 public class PlayerDataManager : NetworkBehaviour
 {
-    [Networked]
-    public AnPlayerData Own { get; private set; }
-    [Networked]
-    public AnPlayerData Opponents { get; private set; }
+    [Networked, Capacity(2)]
+    public NetworkArray<AnPlayerData> Players { get; }
 
     public override void Spawned()
     {
-        DataManager.PlayerData = this;
+        RPC_SetPlayer(RoomData.OwnNumberIndex(), InitiationSetData(PlayerData.Players[RoomData.OwnNumberIndex()]));
 
-        Own = InitiationSetData(PlayerData.Own);
+        DataManager.PlayerData = this;
     }
 
     private AnPlayerData InitiationSetData(PlayerData setData)
     {
+        var color = RoomData.OwnNumber() == 2 ? (StoneColor)(((int)Players[0].PlayerColor + 1) % 2) : setData.PlayerColor;
+
         var outputData = new AnPlayerData
         {
             PlayerName = setData.PlayerName,
-            PlayerNumber = setData.PlayerNumber,
-            PlayerColor = setData.PlayerColor,
+            PlayerColor = color,
             IsExist = setData.IsExist
         };
 
@@ -30,35 +30,43 @@ public class PlayerDataManager : NetworkBehaviour
 
     public void LeftPlayer()
     {
-        Opponents = Opponents.ChangeIsExist(false);
+        RPC_SetPlayer(RoomData.OpponentsNumberIndex(), Players[RoomData.OpponentsNumberIndex()].ChangeIsExist(false));
     }
 
     public void TransferOwnToOne()
     {
-        Own = Opponents;
-        PlayerData.Own.UpdateData(Own);
+        RPC_SetPlayer(RoomData.OwnNumberIndex(), Players[RoomData.OpponentsNumberIndex()].ChangeIsExist(false));
+        PlayerData.Players[RoomData.OpponentsNumberIndex()].UpdateData(Players[RoomData.OpponentsNumberIndex()]);
     }
 
     public void ChangeName(int num, string name)
     {
-        ChangeData(num, data => data.ChangeName(name));
+        ChangeData(num - 1, data => data.ChangeName(name));
     }
 
-    public void ChangeData(int num, Func<AnPlayerData, AnPlayerData> changeDataFunc)
+    public void ChangeColor()
     {
-        if(Own.PlayerNumber == num)
-        {
-            Own = changeDataFunc(Own);
-        }
-        else
-        {
-            Opponents = changeDataFunc(Opponents);
-        }
+        var playerOneColor = Players[0].PlayerColor;
+        ChangeData(0, data => data.ChangeColor(Players[1].PlayerColor));
+        ChangeData(1, data => data.ChangeColor(playerOneColor));
     }
+
+    public void ChangeData(int index, Func<AnPlayerData, AnPlayerData> changeDataFunc)
+    {
+        RPC_SetPlayer(index, changeDataFunc(Players[index]));
+    }
+
+    [Rpc(RpcSources.All, RpcTargets.StateAuthority)]
+    public void RPC_SetPlayer(int index, AnPlayerData playerData)
+    {
+        Players.Set(index, playerData);
+    }
+
+
 
     public AnPlayerData GetDataByNumber(int num)
     {
-        return Own.PlayerNumber == num ? Own : Opponents;
+        return Players[num - 1];
     }
 
     public AnPlayerData GetOpponentsDataByNumber(int num)
@@ -69,19 +77,12 @@ public class PlayerDataManager : NetworkBehaviour
     public struct AnPlayerData: INetworkStruct
     {
         public NetworkString<_16> PlayerName { get; set; }
-        public int PlayerNumber { get; set; }
         public StoneColor PlayerColor { get; set; }
         public NetworkBool IsExist { get; set; }
 
         public AnPlayerData ChangeName(string name)
         {
             PlayerName = name;
-            return this;
-        }
-
-        public AnPlayerData ChangeNumber(int num)
-        {
-            PlayerNumber = num;
             return this;
         }
 

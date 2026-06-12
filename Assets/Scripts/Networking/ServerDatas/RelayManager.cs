@@ -55,8 +55,7 @@ public class RelayManager : MonoBehaviour
     {
         await JoinMatch(code);
 
-        RoomData.Instance.UpdateData(NetworkRunner.SessionInfo.Name, 1);
-        PlayerData.Own.UpdateData("NoName", NetworkRunner.SessionInfo.PlayerCount, (StoneColor)(NetworkRunner.SessionInfo.PlayerCount - 1), true);
+        UpdateData();
 
         await NetworkRunner.LoadScene("Room");
     }
@@ -84,6 +83,13 @@ public class RelayManager : MonoBehaviour
     public static async void JoinRoom(string code)
     {
         await JoinMatch(code);
-        await NetworkRunner.LoadScene("Room");
+
+        UpdateData();
+    }
+
+    private static void UpdateData()
+    {
+        RoomData.Instance.UpdateData(NetworkRunner.SessionInfo.Name, NetworkRunner.SessionInfo.PlayerCount, 1);
+        PlayerData.Players[RoomData.OwnNumberIndex()].UpdateData("NoName", (StoneColor)RoomData.OwnNumberIndex(), true);
     }
 }
