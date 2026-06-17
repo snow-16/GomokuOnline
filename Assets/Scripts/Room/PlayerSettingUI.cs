@@ -31,12 +31,6 @@ public class PlayerSettingUI: MonoBehaviour
         if(_showPlayerNumber == 2)
         {
             _waitingText = transform.GetChild(2).gameObject;
-
-            if(RoomData.Instance.PlayerNumber == 2)
-            {
-                _waitingText.SetActive(false);
-                _playerSettingsObj.SetActive(true);
-            }
         }
 
         if(_showPlayerNumber != RoomData.Instance.PlayerNumber)
@@ -53,9 +47,8 @@ public class PlayerSettingUI: MonoBehaviour
         }
         
         var playerSetting = _playerData.GetDataByNumber(_showPlayerNumber);
-        var opponentsPlayerSetting = _playerData.GetOpponentsDataByNumber(_showPlayerNumber);
 
-        if(_playerNameField.text != playerSetting.PlayerName)
+        if(playerSetting.IsExist && _playerNameField.text != playerSetting.PlayerName)
         {
             if(_showPlayerNumber == RoomData.Instance.PlayerNumber)
             {
@@ -87,7 +80,7 @@ public class PlayerSettingUI: MonoBehaviour
             }
         }
 
-        if(opponentsPlayerSetting.IsExist && RelayManager.NetworkRunner.SessionInfo.PlayerCount == 1)
+        if(_playerData.GetOpponentsDataByNumber(RoomData.Instance.PlayerNumber).IsExist && RelayManager.NetworkRunner.SessionInfo.PlayerCount == 1)
         {
             if(RoomData.Instance.PlayerNumber == 2)
             {

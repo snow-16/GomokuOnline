@@ -18,12 +18,7 @@ public class PlayerDataManager : NetworkBehaviour
     {
         var color = RoomData.OwnNumber() == 2 ? (StoneColor)(((int)Players[0].PlayerColor + 1) % 2) : setData.PlayerColor;
 
-        var outputData = new AnPlayerData
-        {
-            PlayerName = setData.PlayerName,
-            PlayerColor = color,
-            IsExist = setData.IsExist
-        };
+        var outputData = new AnPlayerData().ChangeName(setData.PlayerName).ChangeColor(color).ChangeIsExist(setData.IsExist);
 
         return outputData;
     } 
@@ -46,9 +41,12 @@ public class PlayerDataManager : NetworkBehaviour
 
     public void ChangeColor()
     {
-        var playerOneColor = Players[0].PlayerColor;
-        ChangeData(0, data => data.ChangeColor(Players[1].PlayerColor));
-        ChangeData(1, data => data.ChangeColor(playerOneColor));
+        if(RelayManager.NetworkRunner.SessionInfo.PlayerCount == 2)
+        {
+            ChangeData(1, data => data.ChangeColor(Players[0].PlayerColor));
+        }
+        
+        ChangeData(0, data => data.ChangeColor((StoneColor)(((int)Players[0].PlayerColor + 1) % 2)));
     }
 
     public void ChangeData(int index, Func<AnPlayerData, AnPlayerData> changeDataFunc)
@@ -76,9 +74,9 @@ public class PlayerDataManager : NetworkBehaviour
 
     public struct AnPlayerData: INetworkStruct
     {
-        public NetworkString<_16> PlayerName { get; set; }
-        public StoneColor PlayerColor { get; set; }
-        public NetworkBool IsExist { get; set; }
+        public NetworkString<_16> PlayerName { get; private set; }
+        public StoneColor PlayerColor { get; private set; }
+        public NetworkBool IsExist { get; private set; }
 
         public AnPlayerData ChangeName(string name)
         {
