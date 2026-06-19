@@ -30,8 +30,8 @@ public class PlayerDataManager : NetworkBehaviour
 
     public void TransferOwnToOne()
     {
-        RPC_SetPlayer(RoomData.OwnNumberIndex(), Players[RoomData.OpponentsNumberIndex()].ChangeIsExist(false));
-        PlayerData.Players[RoomData.OpponentsNumberIndex()].UpdateData(Players[RoomData.OpponentsNumberIndex()]);
+        RPC_SetPlayer(0, Players[RoomData.OwnNumberIndex()]);
+        RoomData.Instance.SwitchToOne();
     }
 
     public void ChangeName(int num, string name)

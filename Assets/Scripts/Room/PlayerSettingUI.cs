@@ -32,14 +32,9 @@ public class PlayerSettingUI: MonoBehaviour
         {
             _waitingText = transform.GetChild(2).gameObject;
         }
-
-        if(_showPlayerNumber != RoomData.Instance.PlayerNumber)
-        {
-            _playerNameField.interactable = false;
-        }
     }
 
-    void Update()
+    async void Update()
     {
         if(!RelayManager.NetworkRunner.IsRunning || _playerData == null)
         {
@@ -80,10 +75,24 @@ public class PlayerSettingUI: MonoBehaviour
             }
         }
 
+        if(_showPlayerNumber != RoomData.Instance.PlayerNumber)
+        {
+            _playerNameField.interactable = false;
+        }
+        else
+        {
+            _playerNameField.interactable = true;
+        }
+
         if(_playerData.GetOpponentsDataByNumber(RoomData.Instance.PlayerNumber).IsExist && RelayManager.NetworkRunner.SessionInfo.PlayerCount == 1)
         {
             if(RoomData.Instance.PlayerNumber == 2)
             {
+                _playerData.Object.RequestStateAuthority();
+                while (_playerData.HasStateAuthority == false)
+                {
+                    await System.Threading.Tasks.Task.Delay(100); 
+                }
                 _playerData.TransferOwnToOne();
             }
 

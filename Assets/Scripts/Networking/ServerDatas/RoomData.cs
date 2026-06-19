@@ -43,4 +43,9 @@ public class RoomData
         Turn = turn;
         PlayerNumber = num;
     }
+
+    public void SwitchToOne()
+    {
+        PlayerNumber = 1;
+    }
 }
