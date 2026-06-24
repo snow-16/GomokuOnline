@@ -4,16 +4,24 @@ public class BoardController : MonoBehaviour
 {
     [SerializeField]
     private GameObject _stonePrefab;
+
+    public static BoardController Instance { get; private set; }
     
-    // Start is called once before the first execution of Update after the MonoBehaviour is created
-    void Start()
+    void Awake()
     {
-        
+        Instance = this;
     }
 
-    // Update is called once per frame
-    void Update()
+    public void DecisionPutStone(Vector2 pos, StoneColor color)
     {
-        
+        var stone = Instantiate(_stonePrefab).GetComponent<StoneController>();
+        stone.enabled = true;
+        stone.SetColor(color);
+        stone.transform.position = pos;
+
+        if(BoardUtil.FilledFive(pos, color))
+        {
+            Debug.Log("GOMOKU!!!");
+        }
     }
 }

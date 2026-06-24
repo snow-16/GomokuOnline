@@ -5,30 +5,31 @@ public class PlayerController : MonoBehaviour
 {
     private GameObject _myStone;
 
-    public int PlayerNo { get; private set; }
-    public int Turn { get; private set; }
-
-    public Vector2 OveringCellPos { get; set; }
+    public StoneColor _myColor;
 
     void Awake()
     {
         ObjectAcceser.PlayerController = this;
         _myStone = transform.GetChild(0).gameObject;
+        // _myColor = PlayerData.Players[RoomData.OwnNumberIndex()].PlayerColor;
+        _myColor = StoneColor.Black;
+
+        BoardSelfData.ResetBoard();
     }
 
     void Update()
     {
-        if(Turn == PlayerNo)
+        var overingPos = BoardUtil.PositionToCell(Camera.main.ScreenToWorldPoint(Mouse.current.position.value));
+        if(overingPos != null)
         {
-            var overingPos = GomokuStandUtil.PositionToCell(Camera.main.ScreenToWorldPoint(Mouse.current.position.value));
-            if(overingPos != null)
+            if(BoardSelfData.IsNone(overingPos.Value))
             {
                 _myStone.SetActive(true);
 
                 _myStone.transform.position = overingPos.Value;
                 if(Mouse.current.leftButton.wasPressedThisFrame)
                 {
-                    DecisionPutStone(overingPos.Value);
+                    BoardController.Instance.DecisionPutStone(overingPos.Value, _myColor);
                 }
             }
             else
@@ -36,21 +37,9 @@ public class PlayerController : MonoBehaviour
                 _myStone.SetActive(false);
             }
         }
-    }
-
-    public void DecisionPutStone(Vector2 pos)
-    {
-        // BoardSender.SetCell(pos, (StoneColor)(PlayerNo - 1));
-    }
-
-    public void SetTurn(int turn)
-    {
-        Turn = turn;
-    }
-
-    public void SetNo(int no)
-    {
-        PlayerNo = no;
-        _myStone.GetComponent<StoneController>().SetColor((StoneColor)(PlayerNo - 1));
+        else
+        {
+            _myStone.SetActive(false);
+        }
     }
 }

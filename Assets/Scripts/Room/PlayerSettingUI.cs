@@ -89,6 +89,7 @@ public class PlayerSettingUI: MonoBehaviour
             if(RoomData.Instance.PlayerNumber == 2)
             {
                 _playerData.Object.RequestStateAuthority();
+                DataManager.RoomData.Object.ReleaseStateAuthority();
                 while (_playerData.HasStateAuthority == false)
                 {
                     await System.Threading.Tasks.Task.Delay(100); 
