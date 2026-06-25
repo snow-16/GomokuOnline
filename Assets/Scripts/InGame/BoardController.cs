@@ -11,13 +11,16 @@ public class BoardController : MonoBehaviour
     {
         Instance = this;
     }
-
+    
     public void DecisionPutStone(Vector2 pos, StoneColor color)
     {
-        var stone = Instantiate(_stonePrefab).GetComponent<StoneController>();
-        stone.enabled = true;
-        stone.SetColor(color);
-        stone.transform.position = pos;
+        RelayManager.NetworkRunner.Spawn(_stonePrefab, pos, Quaternion.identity, RelayManager.NetworkRunner.LocalPlayer,
+        (runner, obj) =>
+        {
+            var stoneController = obj.GetComponent<StoneController>();
+            stoneController.enabled = true;
+            stoneController.SetColor(color);
+        });
 
         if(BoardUtil.FilledFive(pos, color))
         {

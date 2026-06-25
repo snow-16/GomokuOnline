@@ -36,12 +36,14 @@ public class RoomData
     public string RoomCode { get; private set; }
     public int PlayerNumber { get; private set; }
     public int Turn { get; private set; }
+    public StoneColor Winner { get; private set; }
 
-    public void UpdateData(string code, int num, int turn)
+    public void UpdateData(string code, int num, int turn, StoneColor winner)
     {
         RoomCode = code;
         Turn = turn;
         PlayerNumber = num;
+        Winner = winner;
     }
 
     public void SwitchToOne()

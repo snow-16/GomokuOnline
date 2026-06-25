@@ -490,6 +490,10 @@ PrefabInstance:
     serializedVersion: 3
     m_TransformParent: {fileID: 1421188037}
     m_Modifications:
+    - target: {fileID: -3540204333497569584, guid: b018dea5028154e1c99a67ce90bf4a38, type: 3}
+      propertyPath: SortKey
+      value: 4062496906
+      objectReference: {fileID: 0}
     - target: {fileID: 2326298101861811755, guid: b018dea5028154e1c99a67ce90bf4a38, type: 3}
       propertyPath: m_LocalPosition.x
       value: 0
@@ -705,6 +709,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 4468d69c374fd4f558ad9ffb17d80af4, type: 3}
   m_Name: 
   m_EditorClassIdentifier: '::'
+  _myColor: 0
 --- !u!1 &1927246242
 GameObject:
   m_ObjectHideFlags: 0

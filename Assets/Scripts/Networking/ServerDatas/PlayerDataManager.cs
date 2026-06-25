@@ -4,6 +4,8 @@ using UnityEngine;
 
 public class PlayerDataManager : NetworkBehaviour
 {
+    [Networked]
+    public int SaveFinished { get; private set; }
     [Networked, Capacity(2)]
     public NetworkArray<AnPlayerData> Players { get; }
 
@@ -12,6 +14,7 @@ public class PlayerDataManager : NetworkBehaviour
         RPC_SetPlayer(RoomData.OwnNumberIndex(), InitiationSetData(PlayerData.Players[RoomData.OwnNumberIndex()]));
 
         DataManager.PlayerData = this;
+        SaveFinished = 0;
     }
 
     private AnPlayerData InitiationSetData(PlayerData setData)
@@ -58,6 +61,26 @@ public class PlayerDataManager : NetworkBehaviour
     public void RPC_SetPlayer(int index, AnPlayerData playerData)
     {
         Players.Set(index, playerData);
+    }
+
+    [Rpc(RpcSources.All, RpcTargets.All)]
+    public void RPC_SaveData()
+    {
+        PlayerData.Players[0].UpdateData(Players[0]);
+        PlayerData.Players[1].UpdateData(Players[1]);
+
+        RPC_EndSave();
+    }
+
+    [Rpc(RpcSources.All, RpcTargets.StateAuthority)]
+    public void RPC_EndSave()
+    {
+        SaveFinished++;
+
+        if(SaveFinished == 2)
+        {
+            RelayManager.NetworkRunner.LoadScene("InGame");
+        }
     }
 
 

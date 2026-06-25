@@ -1,15 +1,16 @@
+using Fusion;
 using UnityEngine;
 
-public class StoneController : MonoBehaviour
+public class StoneController : NetworkBehaviour
 {
     [SerializeField]
     private Sprite _black;
     [SerializeField]
     private Sprite _white;
 
-    private StoneColor _myColor;
+    public StoneColor _myColor;
 
-    void Start()
+    public override void Spawned()
     {
         GetComponent<SpriteRenderer>().sprite = _myColor == StoneColor.Black ? _black : _white;
         BoardSelfData.SetCell(transform.position, _myColor);

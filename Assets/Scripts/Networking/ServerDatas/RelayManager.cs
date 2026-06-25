@@ -89,7 +89,7 @@ public class RelayManager : MonoBehaviour
 
     private static void UpdateData()
     {
-        RoomData.Instance.UpdateData(NetworkRunner.SessionInfo.Name, NetworkRunner.SessionInfo.PlayerCount, 1);
+        RoomData.Instance.UpdateData(NetworkRunner.SessionInfo.Name, NetworkRunner.SessionInfo.PlayerCount, 1, StoneColor.None);
         PlayerData.Players[RoomData.OwnNumberIndex()].UpdateData("NoName", (StoneColor)RoomData.OwnNumberIndex(), true);
     }
 }

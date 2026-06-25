@@ -11,6 +11,7 @@ GameObject:
   - component: {fileID: 2326298101861811755}
   - component: {fileID: 3697835944382479830}
   - component: {fileID: 4092485544763194943}
+  - component: {fileID: -3540204333497569584}
   m_Layer: 0
   m_Name: Stone
   m_TagString: Untagged
@@ -103,6 +104,25 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: d09f413c3c0404926844f355422c92b9, type: 3}
   m_Name: 
   m_EditorClassIdentifier: '::'
-  _myColor: 0
   _black: {fileID: 21300000, guid: de5e036e535724a8588631b8ede3e4af, type: 3}
   _white: {fileID: 21300000, guid: ca71a94ba4164446d9b458627dc924ef, type: 3}
+  _myColor: 0
+--- !u!114 &-3540204333497569584
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 7221102599068892052}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: -1552182283, guid: e725a070cec140c4caffb81624c8c787, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Fusion.Runtime.dll::Fusion.NetworkObject
+  SortKey: 3338811741
+  ObjectInterest: 1
+  Flags: 262145
+  NestedObjects: []
+  NetworkedBehaviours:
+  - {fileID: 4092485544763194943}
+  ForceRemoteRenderTimeframe: 0

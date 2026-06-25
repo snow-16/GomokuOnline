@@ -11,8 +11,7 @@ public class PlayerController : MonoBehaviour
     {
         ObjectAcceser.PlayerController = this;
         _myStone = transform.GetChild(0).gameObject;
-        // _myColor = PlayerData.Players[RoomData.OwnNumberIndex()].PlayerColor;
-        _myColor = StoneColor.Black;
+        _myColor = PlayerData.Players[RoomData.OwnNumberIndex()].PlayerColor;
 
         BoardSelfData.ResetBoard();
     }
