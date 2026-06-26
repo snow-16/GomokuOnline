@@ -23,7 +23,7 @@ public class RoomLoadingAnker : LoadingAnker
     [Rpc(RpcSources.All, RpcTargets.StateAuthority)]
     private async void RPC_AwaitingInitiationLoad()
     {
-        if(RelayManager.NetworkRunner.SessionInfo.PlayerCount == 1)
+        if(RoomData.Instance.PlayerNumber == 1)
         {
             await RelayManager.NetworkRunner.SpawnAsync(_playerDataManagerPrefab);
             await RelayManager.NetworkRunner.SpawnAsync(_roomDataManagerPrefab);

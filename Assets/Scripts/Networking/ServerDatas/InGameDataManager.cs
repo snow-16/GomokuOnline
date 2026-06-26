@@ -4,6 +4,9 @@ using UnityEngine;
 public class InGameDataManager : NetworkBehaviour
 {
     [Networked]
+    public int SaveFinished { get; private set; }
+
+    [Networked]
     public int Turn { get; private set; }
     [Networked]
     public StoneColor Winner { get; private set; }
@@ -14,6 +17,7 @@ public class InGameDataManager : NetworkBehaviour
         RPC_SetWinner(RoomData.Instance.Winner);
 
         DataManager.InGameData = this;
+        SaveFinished = 0;
     }
 
     [Rpc(RpcSources.All, RpcTargets.StateAuthority)]
@@ -32,5 +36,22 @@ public class InGameDataManager : NetworkBehaviour
     public void RPC_SwitchTurn()
     {
         Turn = (Turn % 2) + 1;
+    }
+
+    [Rpc(RpcSources.All, RpcTargets.All)]
+    public void RPC_ClearManager()
+    {
+        DataManager.InGameData = null;
+        RPC_EndGame();
+    }
+
+    [Rpc(RpcSources.All, RpcTargets.StateAuthority)]
+    public void RPC_EndGame()
+    {
+        SaveFinished++;
+        if(SaveFinished == 2)
+        {
+            RelayManager.NetworkRunner.LoadScene("Room");
+        }
     }
 }

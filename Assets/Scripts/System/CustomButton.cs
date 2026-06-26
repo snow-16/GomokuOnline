@@ -17,6 +17,8 @@ public class CustomButton : MonoBehaviour, IPointerClickHandler, IPointerEnterHa
         {
             _buttonImage.color = Color.gray;
         }
+
+        OnAwaking();
     }
 
     public void OnPointerClick(PointerEventData eventData)
@@ -41,6 +43,11 @@ public class CustomButton : MonoBehaviour, IPointerClickHandler, IPointerEnterHa
         {
             _buttonImage.color = Color.white;
         }
+    }
+
+    protected virtual void OnAwaking()
+    {
+        
     }
 
     protected virtual void PressingAction()

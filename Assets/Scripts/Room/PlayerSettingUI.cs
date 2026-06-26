@@ -35,7 +35,7 @@ public class PlayerSettingUI: MonoBehaviour
 
         if(_showPlayerNumber == RoomData.Instance.PlayerNumber)
         {
-            _playerNameField.text = "NoName";
+            _playerNameField.text = PlayerData.Players[RoomData.OwnNumberIndex()].PlayerName;
         }
     }
 

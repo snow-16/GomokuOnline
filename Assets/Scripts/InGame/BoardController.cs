@@ -1,3 +1,4 @@
+using System.Threading.Tasks;
 using UnityEngine;
 
 public class BoardController : MonoBehaviour
@@ -12,9 +13,9 @@ public class BoardController : MonoBehaviour
         Instance = this;
     }
     
-    public void DecisionPutStone(Vector2 pos, StoneColor color)
+    public async void DecisionPutStone(Vector2 pos, StoneColor color)
     {
-        RelayManager.NetworkRunner.Spawn(_stonePrefab, pos, Quaternion.identity, RelayManager.NetworkRunner.LocalPlayer,
+        await RelayManager.NetworkRunner.SpawnAsync(_stonePrefab, pos, Quaternion.identity, RelayManager.NetworkRunner.LocalPlayer,
         (runner, obj) =>
         {
             var stoneController = obj.GetComponent<StoneController>();
@@ -25,7 +26,7 @@ public class BoardController : MonoBehaviour
 
         if(BoardUtil.FilledFive(pos, color))
         {
-            Debug.Log("GOMOKU!!!");
+            DataManager.InGameData.RPC_SetWinner(color);
         }
     }
 }

@@ -54,4 +54,9 @@ public class BoardSelfData
     {
         return MatchColor(cellPos, StoneColor.None);
     }
+
+    public static bool FullyCells()
+    {
+        return !CellData.Contains(StoneColor.None);
+    }
 }

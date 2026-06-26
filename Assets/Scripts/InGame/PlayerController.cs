@@ -1,6 +1,7 @@
 using UnityEngine;
 using UnityEngine.InputSystem;
 using UnityEngine.SceneManagement;
+using TMPro;
 
 public class PlayerController : MonoBehaviour
 {
@@ -8,10 +9,15 @@ public class PlayerController : MonoBehaviour
     private Sprite _black;
     [SerializeField]
     private Sprite _white;
+    [SerializeField]
+    private GameObject _resultUI;
 
     private GameObject _myStone;
+    private StoneColor _myColor;
 
-    public StoneColor _myColor;
+    public bool WaitChangeTurn { get; private set; } = false;
+
+    public static PlayerController Instance { get; private set; }
 
     void Awake()
     {
@@ -31,26 +37,57 @@ public class PlayerController : MonoBehaviour
         }
 
         _myStone.SetActive(false);
-
-        if(DataManager.InGameData.Turn == RoomData.Instance.PlayerNumber)
+        
+        if(DataManager.InGameData.Winner == StoneColor.None && !BoardSelfData.FullyCells())
         {
-            var overingPos = BoardUtil.PositionToCell(Camera.main.ScreenToWorldPoint(Mouse.current.position.value));
-            if(overingPos != null && BoardSelfData.IsNone(overingPos.Value))
+            if(!WaitChangeTurn)
             {
-                _myStone.SetActive(true);
-
-                _myStone.transform.position = overingPos.Value;
-                if(Mouse.current.leftButton.wasPressedThisFrame)
+                if(DataManager.InGameData.Turn == RoomData.Instance.PlayerNumber)
                 {
-                    BoardController.Instance.DecisionPutStone(overingPos.Value, _myColor);
+                    var overingPos = BoardUtil.PositionToCell(Camera.main.ScreenToWorldPoint(Mouse.current.position.value));
+                    if(overingPos != null && BoardSelfData.IsNone(overingPos.Value))
+                    {
+                        _myStone.SetActive(true);
+
+                        _myStone.transform.position = overingPos.Value;
+                        if(Mouse.current.leftButton.wasPressedThisFrame)
+                        {
+                            DecisionPutStone(overingPos.Value);
+                        }
+                    }
                 }
             }
+            else if(DataManager.InGameData.Turn != RoomData.Instance.PlayerNumber)
+            {
+                WaitChangeTurn = false;
+            }
+        }
+        else if(!_resultUI.activeSelf)
+        {
+            _resultUI.SetActive(true);
+            string resultText;
+            if(DataManager.InGameData.Winner != StoneColor.None)
+            {
+                resultText = $"{(DataManager.InGameData.Winner == StoneColor.Black ? "黒" : "白")}:{(PlayerData.Players[0].PlayerColor == DataManager.InGameData.Winner ? PlayerData.Players[0].PlayerName : PlayerData.Players[1].PlayerName)} の勝ち";
+            }
+            else
+            {
+                resultText = "引き分け";
+            }
+
+            _resultUI.transform.GetChild(1).GetComponent<TextMeshProUGUI>().text = resultText;
         }
 
         if(RelayManager.NetworkRunner.SessionInfo.PlayerCount == 1)
         {
             DisconnectedSession();
         }
+    }
+
+    public void DecisionPutStone(Vector2 pos)
+    {
+        BoardController.Instance.DecisionPutStone(pos, _myColor);
+        WaitChangeTurn = true;
     }
 
     private async void DisconnectedSession()

@@ -1,6 +1,8 @@
 using System;
 using UnityEngine;
 
+using Random = UnityEngine.Random;
+
 public class BoardUtil
 {
     public static Vector2? PositionToCell(Vector2 pos)
@@ -66,5 +68,11 @@ public class BoardUtil
         }
 
         return count >= 4;
+    }
+
+    public static Vector2 RandomEmptyCell()
+    {
+        var emptyCells = BoardSelfData.GetEmptyCells();
+        return emptyCells[Random.Range(0, emptyCells.Count)];
     }
 }
