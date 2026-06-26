@@ -8,16 +8,17 @@ public class StoneController : NetworkBehaviour
     [SerializeField]
     private Sprite _white;
 
-    public StoneColor _myColor;
+    [Networked]
+    public StoneColor MyColor { get; private set; }
 
     public override void Spawned()
     {
-        GetComponent<SpriteRenderer>().sprite = _myColor == StoneColor.Black ? _black : _white;
-        BoardSelfData.SetCell(transform.position, _myColor);
+        GetComponent<SpriteRenderer>().sprite = MyColor == StoneColor.Black ? _black : _white;
+        BoardSelfData.SetCell(transform.position, MyColor);
     }
 
     public void SetColor(StoneColor color)
     {
-        _myColor = color;
+        MyColor = color;
     }
 }

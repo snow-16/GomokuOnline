@@ -18,9 +18,10 @@ public class BoardController : MonoBehaviour
         (runner, obj) =>
         {
             var stoneController = obj.GetComponent<StoneController>();
-            stoneController.enabled = true;
             stoneController.SetColor(color);
         });
+
+        DataManager.InGameData.RPC_SwitchTurn();
 
         if(BoardUtil.FilledFive(pos, color))
         {

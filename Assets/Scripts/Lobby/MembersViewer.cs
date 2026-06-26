@@ -1,14 +1,15 @@
 using UnityEngine;
-using UnityEngine.UI;
+using TMPro;
 
 public class MembersViewer : MonoBehaviour
 {
-    private Text _membersViewText;
+    private TextMeshProUGUI _membersViewText;
     private int _memberCount = 0;
 
     void Start()
     {
-        _membersViewText = GetComponent<Text>();
+        _membersViewText = GetComponent<TextMeshProUGUI>();
+        _membersViewText.text = $"残り接続可能人数: 16人";
     }
 
     void Update()

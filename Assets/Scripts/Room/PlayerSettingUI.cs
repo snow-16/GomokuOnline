@@ -1,6 +1,6 @@
-using Fusion;
 using UnityEngine;
 using UnityEngine.UI;
+using TMPro;
 
 public class PlayerSettingUI: MonoBehaviour
 {
@@ -13,7 +13,7 @@ public class PlayerSettingUI: MonoBehaviour
 
     private GameObject _waitingText;
     private GameObject _playerSettingsObj;
-    private InputField _playerNameField;
+    private TMP_InputField _playerNameField;
     private Image _playerColorImage;
 
     private StoneColor _myColor;
@@ -23,7 +23,7 @@ public class PlayerSettingUI: MonoBehaviour
         _playerData = DataManager.PlayerData;
 
         _playerSettingsObj = transform.GetChild(1).gameObject;
-        _playerNameField = _playerSettingsObj.transform.GetChild(0).GetComponent<InputField>();
+        _playerNameField = _playerSettingsObj.transform.GetChild(0).GetComponent<TMP_InputField>();
         _playerColorImage = _playerSettingsObj.transform.GetChild(1).GetComponent<Image>();
         _myColor = _playerData.GetDataByNumber(_showPlayerNumber).PlayerColor;
         _playerColorImage.sprite = _stoneSprities[(int)_myColor];
@@ -32,11 +32,16 @@ public class PlayerSettingUI: MonoBehaviour
         {
             _waitingText = transform.GetChild(2).gameObject;
         }
+
+        if(_showPlayerNumber == RoomData.Instance.PlayerNumber)
+        {
+            _playerNameField.text = "NoName";
+        }
     }
 
     async void Update()
     {
-        if(!RelayManager.NetworkRunner.IsRunning || _playerData == null)
+        if(!RelayManager.NetworkRunner.IsRunning || _playerData == null || DataManager.PlayerData == null)
         {
             return;
         }

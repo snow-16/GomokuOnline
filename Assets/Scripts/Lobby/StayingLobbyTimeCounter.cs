@@ -1,13 +1,13 @@
 using UnityEngine;
-using UnityEngine.UI;
+using TMPro;
 
 public class StayingLobbyTimeCounter : MonoBehaviour
 {
-    private Text _countingText;
+    private TextMeshProUGUI _countingText;
 
     void Start()
     {
-        _countingText = GetComponent<Text>();
+        _countingText = GetComponent<TextMeshProUGUI>();
     }
 
     void Update()

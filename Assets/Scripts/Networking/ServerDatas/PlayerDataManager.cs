@@ -68,6 +68,7 @@ public class PlayerDataManager : NetworkBehaviour
     {
         PlayerData.Players[0].UpdateData(Players[0]);
         PlayerData.Players[1].UpdateData(Players[1]);
+        DataManager.PlayerData = null;
 
         RPC_EndSave();
     }

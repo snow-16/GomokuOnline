@@ -1,10 +1,10 @@
 using UnityEngine;
-using UnityEngine.UI;
+using TMPro;
 
 public class JoinRoomButton : CustomButton
 {
     [SerializeField]
-    private InputField _codeInputField;
+    private TMP_InputField _codeInputField;
 
     protected override void PressingAction()
     {
