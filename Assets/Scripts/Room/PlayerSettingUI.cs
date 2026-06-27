@@ -7,20 +7,31 @@ using TMPro;
 /// </summary>
 public class PlayerSettingUI: MonoBehaviour
 {
+    /// <summary> データを表示するプレイヤーの番号 </summary>
     [SerializeField]
     private int _showPlayerNumber;
+    /// <summary> 石のスプライト </summary>
     [SerializeField]
     private Sprite[] _stoneSprities;
 
+    /// <summary> サーバープレイヤーデータの保持用 </summary>
     private PlayerDataManager _playerData;
 
+    /// <summary> 接続待機テキストUI </summary>
     private GameObject _waitingText;
+    /// <summary> プレイヤーデータ表示用UI </summary>
     private GameObject _playerSettingsObj;
+    /// <summary> プレイヤー名入力フィールド </summary>
     private TMP_InputField _playerNameField;
+    /// <summary> プレイヤーの石表示用画像UI </summary>
     private Image _playerColorImage;
 
+    /// <summary> プレイヤーの石の割り当て色 </summary>
     private StoneColor _myColor;
 
+    /// <summary>
+    /// 各データの初期化
+    /// </summary>
     public void Initiation()
     {
         _playerData = DataManager.PlayerData;
