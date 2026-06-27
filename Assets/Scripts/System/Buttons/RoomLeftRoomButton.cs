@@ -1,5 +1,8 @@
 using UnityEngine.SceneManagement;
 
+/// <summary>
+/// 部屋からの退室ボタンクラス
+/// </summary>
 public class RoomLeftRoomButton : CustomButton
 {
     protected override async void PressingAction()

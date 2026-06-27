@@ -1,8 +1,11 @@
 using UnityEngine;
-using UnityEngine.UI;
 
+/// <summary>
+/// タイトルからロビーへの入室ボタンクラス
+/// </summary>
 public class JoinLobbyButton : CustomButton
 {
+    /// <summary> ロード中表示テキストUI </summary>
     [SerializeField]
     private GameObject loadingText;
 

@@ -1,5 +1,6 @@
-using UnityEngine;
-
+/// <summary>
+/// 対戦開始ボタンクラス
+/// </summary>
 public class RoomStartGameButton : CustomButton
 {
     void Update()

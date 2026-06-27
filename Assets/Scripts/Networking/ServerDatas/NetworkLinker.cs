@@ -1,14 +1,15 @@
 using Fusion;
-using Unity.VisualScripting;
 using UnityEngine;
 
+/// <summary>
+/// 各種データの初期化・NetworkRunner生成用クラス
+/// </summary>
 [DefaultExecutionOrder(-100)]
 public class NetworkLinker : MonoBehaviour
 {
+    /// <summary> NetworkRunnerをアタッチしたプレハブ </summary>
     [SerializeField]
     private NetworkRunner _networkRunnerPrefab;
-
-    public static bool _joinedServer = false;
     
     void Awake()
     {

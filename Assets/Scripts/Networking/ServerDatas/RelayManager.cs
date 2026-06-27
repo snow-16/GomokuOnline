@@ -4,9 +4,12 @@ using Fusion;
 using UnityEngine;
 using UnityEngine.SceneManagement;
 
+/// <summary>
+/// サーバー接続・セッション入退室管理用クラス
+/// </summary>
 public class RelayManager : MonoBehaviour
 {
-
+    /// <summary> 生成されたNetworkRunner取得用プロパティ </summary>
     public static NetworkRunner NetworkRunner { get; private set;}
 
     void Update()
@@ -24,6 +27,11 @@ public class RelayManager : MonoBehaviour
         }
     }
 
+    /// <summary>
+    /// セッションへの参加
+    /// </summary>
+    /// <param name="code">部屋コード</param>
+    /// <returns></returns>
     public static async Task JoinMatch(string code)
     {
         LobbyData._stayingLobbyTime = 0;
@@ -39,11 +47,18 @@ public class RelayManager : MonoBehaviour
         });
     }
 
+    /// <summary>
+    /// NetworkRunner生成
+    /// </summary>
+    /// <param name="runnerPrefab">NetworkRunnerがアタッチされたプレハブ</param>
     public static void CreateRunner(NetworkRunner runnerPrefab)
     {
         NetworkRunner = Instantiate(runnerPrefab);
     }
 
+    /// <summary>
+    /// ロビーへの参加
+    /// </summary>
     public static async void JoinLobby()
     {
         await NetworkRunner.JoinSessionLobby(SessionLobby.Custom, "Lobby");
@@ -51,6 +66,10 @@ public class RelayManager : MonoBehaviour
         SceneManager.LoadScene("Lobby");
     }
 
+    /// <summary>
+    /// コードを指定して部屋を立てる
+    /// </summary>
+    /// <param name="code">指定するコード</param>
     public static async void CreateRoom(string code)
     {
         await JoinMatch(code);
@@ -60,6 +79,9 @@ public class RelayManager : MonoBehaviour
         await NetworkRunner.LoadScene("Room");
     }
 
+    /// <summary>
+    /// ランダムなコードで部屋を立てる
+    /// </summary>
     public static void CreateRoom()
     {
         string sessionCode = null;
@@ -80,6 +102,10 @@ public class RelayManager : MonoBehaviour
         CreateRoom(sessionCode);
     }
 
+    /// <summary>
+    /// 立てられた部屋への入室
+    /// </summary>
+    /// <param name="code">対象の部屋のコード</param>
     public static async void JoinRoom(string code)
     {
         await JoinMatch(code);
@@ -87,6 +113,9 @@ public class RelayManager : MonoBehaviour
         UpdateData();
     }
 
+    /// <summary>
+    /// 各データの初期化
+    /// </summary>
     private static void UpdateData()
     {
         RoomData.Instance.UpdateData(NetworkRunner.SessionInfo.Name, NetworkRunner.SessionInfo.PlayerCount, 1, StoneColor.None);

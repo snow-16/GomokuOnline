@@ -5,11 +5,18 @@ using Fusion.Sockets;
 using UnityEngine;
 using UnityEngine.SceneManagement;
 
+/// <summary>
+/// サーバー上の各セッションデータ保管用クラス
+/// </summary>
 public class LobbyData : MonoBehaviour, INetworkRunnerCallbacks
 {
+    /// <summary> 全セッション情報のリスト </summary>
     public static List<SessionInfo> _sessionList;
+    /// <summary> 全セッションの部屋コードのリスト </summary>
     public static List<string> _sessionPassList = new();
+    /// <summary> 現在のサーバー接続人数 </summary>
     public static int _playerCount;
+    /// <summary> ロビー内での滞在時間 </summary>
     public static float _stayingLobbyTime = 0;
 
     void Awake()
@@ -17,6 +24,10 @@ public class LobbyData : MonoBehaviour, INetworkRunnerCallbacks
         DontDestroyOnLoad(gameObject);
     }
 
+    /// <summary>
+    /// セッションが更新されたらデータも更新
+    /// 接続人数を20以下に抑えるため、接続人数が16人を超えたら切断する。
+    /// </summary>
     public void OnSessionListUpdated(NetworkRunner runner, List<SessionInfo> sessionList)
     {
         

@@ -3,8 +3,16 @@ using UnityEngine;
 
 using Random = UnityEngine.Random;
 
+/// <summary>
+/// 五目並べ盤関連の演算用クラス
+/// </summary>
 public class BoardUtil
 {
+    /// <summary>
+    /// マウス座標をマス目上にスナップした座標に変換
+    /// </summary>
+    /// <param name="pos"></param>
+    /// <returns></returns>
     public static Vector2? PositionToCell(Vector2 pos)
     {
         float? x = null;
@@ -30,6 +38,12 @@ public class BoardUtil
         return (x != null && y != null) ? new Vector2(x.Value, y.Value) : null;
     }
 
+    /// <summary>
+    /// 設置座標を中心に、五目並んだ列が存在するか判定する
+    /// </summary>
+    /// <param name="putPos">石の設置座標</param>
+    /// <param name="color">石の色</param>
+    /// <returns></returns>
     public static bool FilledFive(Vector2 putPos, StoneColor color)
     {
         for(int i = 0; i < 4; i++)
@@ -44,6 +58,13 @@ public class BoardUtil
         return false;
     }
 
+    /// <summary>
+    /// 特定の1列に対して、五目並んでいるかの判定を行う
+    /// </summary>
+    /// <param name="putPos">設置座標</param>
+    /// <param name="color">石の色</param>
+    /// <param name="vector">列の方向ベクトル</param>
+    /// <returns></returns>
     private static bool FilledLine(Vector2 putPos, StoneColor color, Vector2 vector)
     {
         var count = 0;
@@ -70,6 +91,10 @@ public class BoardUtil
         return count >= 4;
     }
 
+    /// <summary>
+    /// ランダムな空きマスの座標を取得する
+    /// </summary>
+    /// <returns></returns>
     public static Vector2 RandomEmptyCell()
     {
         var emptyCells = BoardSelfData.GetEmptyCells();

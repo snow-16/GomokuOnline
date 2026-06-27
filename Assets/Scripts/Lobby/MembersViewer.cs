@@ -1,9 +1,14 @@
 using UnityEngine;
 using TMPro;
 
+/// <summary>
+/// 現在のサーバー接続人数表示用クラス
+/// </summary>
 public class MembersViewer : MonoBehaviour
 {
+    /// <summary> 接続人数表示用テキストUI </summary>
     private TextMeshProUGUI _membersViewText;
+    /// <summary> 現在のサーバー接続人数 </summary>
     private int _memberCount = 0;
 
     void Start()

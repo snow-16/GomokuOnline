@@ -1,17 +1,24 @@
-using System.Threading.Tasks;
 using Fusion;
 using UnityEngine;
 
+/// <summary>
+/// ルームシーンロード完了感知用クラス
+/// </summary>
 public class RoomLoadingAnker : LoadingAnker
 {
+    /// <summary> プレイヤーサーバーデータ同期用プレハブ </summary>
     [SerializeField]
     private GameObject _playerDataManagerPrefab;
+    /// <summary> ルームサーバーデータ同期用プレハブ </summary>
     [SerializeField]
     private GameObject _roomDataManagerPrefab;
+    /// <summary> プレイヤー1のデータ表示用UI </summary>
     [SerializeField]
     private PlayerSettingUI _player1SettingUI;
+    /// <summary> プレイヤー2のデータ表示用UI </summary>
     [SerializeField]
     private PlayerSettingUI _player2SettingUI;
+    /// <summary> 部屋コード表示用UI </summary>
     [SerializeField]
     private RoomCodeUI _roomCodeUI;
 
@@ -20,6 +27,9 @@ public class RoomLoadingAnker : LoadingAnker
         RPC_AwaitingInitiationLoad();
     }
 
+    /// <summary>
+    /// サーバーデータ同期用オブジェクト生成
+    /// </summary>
     [Rpc(RpcSources.All, RpcTargets.StateAuthority)]
     private async void RPC_AwaitingInitiationLoad()
     {

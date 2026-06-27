@@ -2,10 +2,15 @@ using System.Text.RegularExpressions;
 using UnityEngine;
 using TMPro;
 
+/// <summary>
+/// ロビーからのセッション新設ボタンクラス
+/// </summary>
 public class NewwRoomButton : CustomButton
 {
+    /// <summary> 部屋コード入力フィールド </summary>
     [SerializeField]
     private TMP_InputField _codeInputField;
+    /// <summary> 部屋コードエラー表示テキストUI </summary>
     [SerializeField]
     private TextMeshProUGUI _massageText;
 

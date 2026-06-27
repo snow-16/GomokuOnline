@@ -1,6 +1,8 @@
-using System.Threading.Tasks;
 using UnityEngine.SceneManagement;
 
+/// <summary>
+/// 対戦中の接続切断時のタイトル帰還ボタンクラス
+/// </summary>
 public class BackToTitleButton : CustomButton
 {
 

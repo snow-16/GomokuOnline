@@ -2,17 +2,26 @@ using UnityEngine;
 using UnityEngine.UI;
 using TMPro;
 
+/// <summary>
+/// インゲームシーン内のUI統括クラス
+/// </summary>
 public class InGameUI : MonoBehaviour
 {
+    /// <summary> 黒色の石のスプライト </summary>
     [SerializeField]
     private Sprite _black;
+    /// <summary> 白色の石のスプライト </summary>
     [SerializeField]
     private Sprite _white;
 
+    /// <summary> 自ターン中のプレイヤーの持ち時間 </summary>
     private float _haveTime;
 
+    /// <summary> ターン表示用テキストUI </summary>
     private TextMeshProUGUI _turnText;
+    /// <summary> 持ち時間表示用テキストUI </summary>
     private TextMeshProUGUI _timeText;
+    /// <summary> 自分の石の色表示用画像UI </summary>
     private Image _stoneImage;
 
     void Awake()

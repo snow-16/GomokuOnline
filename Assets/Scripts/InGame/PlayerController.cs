@@ -1,25 +1,32 @@
 using UnityEngine;
 using UnityEngine.InputSystem;
-using UnityEngine.SceneManagement;
 using TMPro;
 
+/// <summary>
+/// プレイヤー側の操作・勝敗表示クラス
+/// </summary>
 public class PlayerController : MonoBehaviour
 {
+    /// <summary> 黒色の石のスプライト </summary>
     [SerializeField]
     private Sprite _black;
+    /// <summary> 白色の石のスプライト </summary>
     [SerializeField]
     private Sprite _white;
+    /// <summary> 勝敗表示用UI </summary>
     [SerializeField]
     private GameObject _resultUI;
+    /// <summary> 接続切断を伝えるUI </summary>
     [SerializeField]
     private GameObject _disconnectedUI;
 
+    /// <summary> 石の設置石目安用の飾りオブジェクト </summary>
     private GameObject _myStone;
+    /// <summary> 自身の石の割り当て色 </summary>
     private StoneColor _myColor;
 
+    /// <summary> 現在、石の設置後のターン切り替え待機中であるか </summary>
     public bool WaitChangeTurn { get; private set; } = false;
-
-    public static PlayerController Instance { get; private set; }
 
     void Awake()
     {
@@ -87,6 +94,11 @@ public class PlayerController : MonoBehaviour
         }
     }
 
+    /// <summary>
+    /// 石の設置位置確定。
+    /// 待機状態へ移行する
+    /// </summary>
+    /// <param name="pos"></param>
     public void DecisionPutStone(Vector2 pos)
     {
         BoardController.Instance.DecisionPutStone(pos, _myColor);

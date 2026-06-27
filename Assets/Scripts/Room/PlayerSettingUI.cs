@@ -2,6 +2,9 @@ using UnityEngine;
 using UnityEngine.UI;
 using TMPro;
 
+/// <summary>
+/// プレイヤーデータ表示・設定UI用クラス
+/// </summary>
 public class PlayerSettingUI: MonoBehaviour
 {
     [SerializeField]
