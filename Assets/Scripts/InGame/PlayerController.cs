@@ -11,6 +11,8 @@ public class PlayerController : MonoBehaviour
     private Sprite _white;
     [SerializeField]
     private GameObject _resultUI;
+    [SerializeField]
+    private GameObject _disconnectedUI;
 
     private GameObject _myStone;
     private StoneColor _myColor;
@@ -80,7 +82,8 @@ public class PlayerController : MonoBehaviour
 
         if(RelayManager.NetworkRunner.SessionInfo.PlayerCount == 1)
         {
-            DisconnectedSession();
+            DataManager.InGameData = null;
+            _disconnectedUI.SetActive(true);
         }
     }
 
@@ -88,12 +91,5 @@ public class PlayerController : MonoBehaviour
     {
         BoardController.Instance.DecisionPutStone(pos, _myColor);
         WaitChangeTurn = true;
-    }
-
-    private async void DisconnectedSession()
-    {
-        await RelayManager.NetworkRunner.Shutdown();
-        Destroy(RelayManager.NetworkRunner.gameObject);
-        SceneManager.LoadScene("Title");
     }
 }

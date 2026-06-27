@@ -6,37 +6,43 @@ public class NewwRoomButton : CustomButton
 {
     [SerializeField]
     private TMP_InputField _codeInputField;
+    [SerializeField]
+    private TextMeshProUGUI _massageText;
 
     protected override void PressingAction()
     {
         if(_codeInputField.text.Length == 0)
         {
             RelayManager.CreateRoom();
-            gameObject.SetActive(false);
+            transform.parent.gameObject.SetActive(false);
+            transform.parent.parent.GetChild(0).gameObject.SetActive(true);
         }
         else if(_codeInputField.text.Length == 6)
         {
             if(!Regex.IsMatch(_codeInputField.text, @"^[A-Z]+$"))
             {
-                Debug.Log("コードはアルファベット大文字で統一してください。");
+                _massageText.gameObject.SetActive(true);
+                _massageText.text = "コードはアルファベット大文字のみです";
+                _codeInputField.text = "";
             }
             else if(!LobbyData._sessionPassList.Contains(_codeInputField.text))
             {
                 RelayManager.CreateRoom(_codeInputField.text);
-                gameObject.SetActive(false);
+                transform.parent.gameObject.SetActive(false);
+                transform.parent.parent.GetChild(0).gameObject.SetActive(true);
             }
             else
             {
-                Debug.Log("そのコードは既に存在します。");
+                _massageText.gameObject.SetActive(true);
+                _massageText.text = "そのコードは既に存在します";
+                _codeInputField.text = "";
             }
-        }
-        else if(_codeInputField.text.Length > 6)
-        {
-            Debug.Log("部屋コードが長すぎます。コードはアルファベット大文字で6文字です。");
         }
         else
         {
-            Debug.Log("部屋コードが短すぎます。コードはアルファベット大文字で6文字です。");
+            _massageText.gameObject.SetActive(true);
+            _massageText.text = "コードが6文字ではありません";
+            _codeInputField.text = "";
         }
     }
 }
